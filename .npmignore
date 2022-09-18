@@ -1,0 +1,9 @@
+coverage/
+test/
+src/
+.npmignore
+.npmrc
+.nvmrc
+.eslintrc
+jest.config.ts
+tsconfig.json
