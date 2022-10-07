@@ -49,7 +49,7 @@ export class Resolver {
 
         if (seen.has(val) && !removal && !remove) {
           // We are in a cycle. Break it.
-          break;
+          continue;
         }
 
         if (val in resolver.aliases) {
