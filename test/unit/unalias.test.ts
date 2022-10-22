@@ -150,4 +150,27 @@ describe("Resolver", () => {
       });
     }
   });
+
+  it("checks if the example in the readme holds water", () => {
+    const aliases: Aliases = {
+      Al: ["Alyson", "Alyssa", "Alfred", "Albert", "Alphonse"],
+      // Alias Sam itself in values. It will be removed automatically.
+      Sam: ["Sam", "Samuel", "Samson", "Samantha"],
+      All: ["Al", "Sam"],
+      NoSam: ["All", "-Sam"],
+    };
+
+    const resolver = new Resolver(aliases);
+
+    const all = resolver.resolveOne("All");
+    const noAls = resolver.resolveAll(["All", "-Al"]);
+    const noSams = resolver.resolveOne("NoSam");
+
+    expect(all).toEqual([
+      ...aliases.Al,
+      ...aliases.Sam.filter((v) => v != "Sam"),
+    ]);
+    expect(noAls).toEqual(aliases.Sam.filter((v) => v != "Sam"));
+    expect(noSams).toEqual(aliases.Al);
+  });
 });

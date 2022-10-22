@@ -54,7 +54,11 @@ export class Resolver {
 
         if (val in resolver.aliases) {
           seen.add(val);
-          resolve(resolver, resolver.aliases[val], removal);
+          resolve(
+            resolver,
+            resolver.aliases[val].filter((v) => v != val),
+            removal
+          );
         } else {
           if (remove || removal) {
             removals.add(val);
