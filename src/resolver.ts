@@ -54,11 +54,14 @@ export class Resolver {
 
         if (val in resolver.aliases) {
           seen.add(val);
-          resolve(
-            resolver,
-            resolver.aliases[val].filter((v) => v != val),
-            removal
-          );
+          // Filter out the alias itself. We don't want to resolve it again.
+          const values = resolver.aliases[val].filter((v) => v != val);
+          resolve(resolver, values, removal);
+          // The alias resolves into itself.
+          // Consider it as a terminal value.
+          if (!values.length) {
+            resolved.add(val);
+          }
         } else {
           if (remove || removal) {
             removals.add(val);

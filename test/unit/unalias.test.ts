@@ -9,7 +9,7 @@ describe("Resolver", () => {
     alias5: ["alias1"], // => [value3,value4,value1,value2]
     alias6: ["alias4", "-value3"], // => [value4,value2]
     alias7: ["alias5", "-alias2", "-alias3"], // => [value1,value2]
-    cyclic: ["cyclic"], // => []
+    cyclic: ["cyclic"], // => [cyclic]
   };
 
   describe("resolveAll", () => {
@@ -44,7 +44,7 @@ describe("Resolver", () => {
       },
       {
         input: ["cyclic"],
-        expected: [],
+        expected: ["cyclic"],
       },
       {
         input: ["non-alias-1", "non-alias-2"],
@@ -76,19 +76,19 @@ describe("Resolver", () => {
       },
       {
         input: ["cyclic", "alias1"],
-        expected: ["value3", "value4", "value1", "value2"],
+        expected: ["cyclic", "value3", "value4", "value1", "value2"],
       },
       {
         input: ["cyclic", "-alias1"],
-        expected: [],
+        expected: ["cyclic"],
       },
       {
         input: ["cyclic", "-alias1", "alias3"],
-        expected: [],
+        expected: ["cyclic"],
       },
       {
         input: ["cyclic", "-alias1", "value5"],
-        expected: ["value5"],
+        expected: ["cyclic", "value5"],
       },
     ];
 
@@ -133,7 +133,7 @@ describe("Resolver", () => {
       },
       {
         input: "cyclic",
-        expected: [],
+        expected: ["cyclic"],
       },
       {
         input: "non-alias-1",
