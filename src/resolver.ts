@@ -34,11 +34,7 @@ export class Resolver {
     // For values to be removed after full resolution.
     const removals: Set<string> = new Set();
 
-    (function resolve(
-      resolver: Resolver,
-      values: string[],
-      remove = false
-    ): void {
+    function resolve(this: Resolver, values: string[], remove = false): void {
       for (const item of values.map((v) => (remove ? `-${v}` : v))) {
         const removal = item.startsWith("-");
         let val = item;
@@ -52,11 +48,11 @@ export class Resolver {
           continue;
         }
 
-        if (val in resolver.aliases) {
+        if (val in this.aliases) {
           seen.add(val);
           // Filter out the alias itself. We don't want to resolve it again.
-          const values = resolver.aliases[val].filter((v) => v != val);
-          resolve(resolver, values, removal);
+          const values = this.aliases[val].filter((v) => v != val);
+          resolve.call(this, values, removal);
           // The alias resolves into itself.
           // Consider it as a terminal value.
           if (!values.length) {
@@ -70,7 +66,9 @@ export class Resolver {
           }
         }
       }
-    })(this, values, false);
+    }
+
+    resolve.call(this, values, false);
 
     for (const item of removals) {
       resolved.delete(item);
