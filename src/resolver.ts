@@ -55,8 +55,11 @@ export class Resolver {
           resolve.call(this, values, removal);
           // The alias resolves into itself.
           // Consider it as a terminal value.
-          if (!values.length) {
+          if (!values.length && !removal) {
             resolved.add(val);
+          }
+          if (removal) {
+            removals.add(val);
           }
         } else {
           if (remove || removal) {

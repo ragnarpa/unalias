@@ -90,6 +90,10 @@ describe("Resolver", () => {
         input: ["cyclic", "-alias1", "value5"],
         expected: ["cyclic", "value5"],
       },
+      {
+        input: ["value1", "-cyclic"],
+        expected: ["value1"],
+      },
     ];
 
     for (const { input, expected } of tests) {
@@ -101,6 +105,7 @@ describe("Resolver", () => {
       });
     }
   });
+
   describe("resolveOne", () => {
     const tests: Iterable<{ input: string; expected: string[] }> = [
       {
